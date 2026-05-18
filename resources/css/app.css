@@ -1,0 +1,6 @@
+@import './landing-custom.css';
+@import url('./landing.css');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

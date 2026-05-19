@@ -24,9 +24,9 @@
         <div class="header-container">
             <!-- Logo -->
             <div class="logo">
-<img src="{{ asset('images/Logo.png') }}"
+<img src="{{ asset('images/Logobaru.png') }}"
              alt="Logo Gereja"
-             class="h-10 w-auto">
+             class="h-20 w-auto">
                              <div>
                     {{-- <div>Gereja YHS</div>
                     <span class="logo-sub">Jemaat & Manajemen</span> --}}

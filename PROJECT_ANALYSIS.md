@@ -1,10 +1,11 @@
-# 📖 Analisis Projek: Gereja Management System (Gereja YHS)
+﻿# 📖 Analisis Projek: Gereja Management System (Gereja YHS)
 
 ## Ringkasan Umum
 
-Ini adalah **Sistem Manajemen Gereja** berbasis web untuk **Gereja YHS**, dibangun menggunakan **Laravel 10** dengan **TailwindCSS** dan **Vite**. Aplikasi ini berfungsi sebagai:
-1. **Website publik** (landing page) untuk pengunjung
-2. **Sistem administrasi** untuk mengelola jemaat, keuangan, galeri, dan notifikasi
+Ini adalah **Sistem Manajemen Gereja** berbasis web untuk **Gereja YHS**, dibangun menggunakan **Laravel 10** dengan **TailwindCSS** dan **Vite**. Aplikasi ini sekarang mencakup:
+1. **Website publik** (landing page, halaman statis, galeri, berita, layanan)
+2. **Sistem administrasi** untuk mengelola jemaat, keuangan, notifikasi, absensi, event, dan registrasi acara
+3. **Fitur donasi/persembahan online** dengan integrasi Midtrans
 
 ---
 
@@ -16,7 +17,7 @@ Ini adalah **Sistem Manajemen Gereja** berbasis web untuk **Gereja YHS**, dibang
 | Database | MySQL (`gereja_management_system`) |
 | CSS | TailwindCSS + Custom CSS |
 | Build Tool | Vite |
-| Auth | Laravel Breeze (custom AuthController) |
+| Auth | Laravel Breeze + custom `AuthController` |
 | Font | Playfair Display, Figtree (Google Fonts) |
 | Icons | Font Awesome 6.4 |
 | Server | XAMPP (local) + ngrok (tunnel) |
@@ -29,29 +30,49 @@ Ini adalah **Sistem Manajemen Gereja** berbasis web untuk **Gereja YHS**, dibang
 gereja-management-system/
 ├── app/
 │   ├── Http/Controllers/
-│   │   ├── AuthController.php          ← Login, Register, Logout
+│   │   ├── AuthController.php          ← Login, Register, Logout custom
 │   │   ├── ImageController.php         ← Landing page + CRUD galeri
-│   │   ├── PageController.php          ← Halaman statis (sejarah, visi, dll)
+│   │   ├── PageController.php          ← Halaman statis, layanan, berita, pastors
 │   │   ├── ProfileController.php       ← Edit profil user
-│   │   ├── JemaatController.php        ← Manajemen data jemaat
-│   │   ├── KeuanganController.php      ← Manajemen keuangan
-│   │   ├── NotifikasiController.php    ← Manajemen notifikasi
+│   │   ├── DashboardController.php     ← Dashboard utama
+│   │   ├── DashboardFeatureController.php ← API fitur dashboard jemaat
+│   │   ├── AbsensiController.php       ← Absensi jemaat + approval admin
+│   │   ├── PersembahanController.php   ← Persembahan online + Midtrans webhook
+│   │   ├── RegistrasiAcaraController.php ← Event registrasi user/admin
 │   │   ├── UserApprovalController.php  ← Approval user baru
-│   │   └── DashboardController.php     ← Dashboard
+│   │   ├── JemaatController.php        ← Manajemen data jemaat (admin)
+│   │   ├── KeuanganController.php      ← Manajemen keuangan admin
+│   │   ├── NotifikasiController.php    ← Manajemen notifikasi admin
+│   │   ├── LayananController.php       ← Kosong / malformatted saat ini
+│   │   └── HomeController.php
+│   ├── Http/Controllers/Admin/
+│   │   ├── PastorController.php
+│   │   ├── ServiceContentController.php
+│   │   ├── NewsScheduleController.php
+│   │   ├── ScheduleController.php
+│   │   ├── JemaatController.php
+│   │   ├── NotifikasiController.php
+│   │   ├── KeuanganController.php
+│   │   └── AdminDashboardController.php
 │   ├── Models/
 │   │   ├── User.php          ← User (role: admin/pendeta/jemaat)
 │   │   ├── Jemaat.php        ← Data anggota jemaat (soft delete)
 │   │   ├── Keuangan.php      ← Transaksi keuangan
 │   │   ├── Notifikasi.php    ← Notifikasi untuk jemaat
-│   │   ├── HeroSlider.php    ← Slider gambar di landing page
+│   │   ├── Absensi.php       ← Absensi jemaat
+│   │   ├── HeroSlider.php    ← Slider gambar landing page
 │   │   ├── Image.php         ← Galeri gambar
 │   │   ├── News.php          ← Berita & pengumuman
+│   │   ├── Pastor.php        ← Data pastor
+│   │   ├── Persembahan.php   ← Rekaman persembahan online
+│   │   ├── RegistrasiAcara.php ← Registrasi acara
 │   │   ├── Schedule.php      ← Jadwal ibadah
 │   │   ├── Service.php       ← Layanan gereja
-│   │   └── MenuItem.php      ← Menu navigasi (hierarki parent-child)
+│   │   ├── MenuItem.php      ← Menu navigasi (hierarki parent-child)
+│   │   └── ...
 │   └── View/Components/
 │       └── AppLayout.php
-├── database/migrations/       ← 15 migration files
+├── database/migrations/       ← Migration untuk tabel utama dan fitur baru
 ├── resources/
 │   ├── views/
 │   │   ├── welcome.blade.php              ← Landing page (hero slider + CTA)
@@ -68,14 +89,15 @@ gereja-management-system/
 │   │   │   ├── layanan.blade.php
 │   │   │   ├── pengumuman.blade.php
 │   │   │   └── pastors.blade.php
-│   │   ├── auth/                          ← Login, Register, dll
+│   │   ├── auth/                          ← Login, Register, password reset
 │   │   ├── admin/                         ← Panel admin (sebagian di-comment)
 │   │   │   ├── dashboard.blade.php
 │   │   │   ├── galeri/
 │   │   │   ├── keuangan/
 │   │   │   └── notifikasi/
 │   │   ├── image/                         ← Gallery & detail gambar
-│   │   └── profile/                       ← Edit profil
+│   │   ├── profile/                       ← Edit profil
+│   │   └── dashboard/                     ← Dashboard feature views
 │   └── css/
 │       ├── app.css                        ← Entry point CSS
 │       ├── landing-custom.css             ← Custom styles landing page
@@ -95,14 +117,19 @@ gereja-management-system/
 | Role | Akses |
 |------|-------|
 | `admin` | Full admin panel access |
-| `pendeta` | Same as admin (`isAdmin()`) |
-| `jemaat` | Limited dashboard access |
+| `pendeta` | Sama dengan admin (`isAdmin()`) |
+| `jemaat` | Akses dashboard terbatas |
 
 ### Alur Registrasi:
 1. User mengisi form registrasi (email, password, data diri lengkap)
-2. Otomatis membuat **User** + **Jemaat** profile
-3. `is_approved` langsung `true` (auto-approve)
+2. Terbuat **User** + **Jemaat** profile
+3. `is_approved` kemungkinan auto-approve pada controller custom
 4. Langsung login dan redirect ke dashboard
+
+### Catatan Auth Saat Ini:
+- `routes/web.php` menggunakan `AuthController` custom untuk login/register/logout
+- `routes/auth.php` tetap menyimpan route default Breeze untuk email verification, password reset, dan logout
+- Kedua sistem ini berjalan berdampingan, yang dapat menyebabkan duplikasi atau konflik dalam otentikasi
 
 ### Field Registrasi Jemaat:
 - Nama lengkap, jenis kelamin, tempat/tanggal lahir
@@ -114,29 +141,67 @@ gereja-management-system/
 ## 🗺️ Route Map
 
 ### Public Routes (tanpa login):
-| Route | Controller | View |
-|-------|-----------|------|
-| `/` | `ImageController@index` | `welcome` (landing page) |
-| `/history` | `PageController@history` | `page.history` |
-| `/vision` | `PageController@vision` | `page.vision` |
-| `/struktur` | `PageController@struktur` | `page.struktur` |
-| `/layanan` | `PageController@layanan` | `page.layanan` |
-| `/pengumuman` | `PageController@pengumuman` | `page.pengumuman` |
-| `/pastors` | `PageController@pastors` | `page.pastors` |
-| `/gallery` | `ImageController@gallery` | `image.gallery` |
-| `/image/{id}` | `ImageController@show` | `image.detail` |
+| Route | Controller | Fungsi |
+|-------|------------|--------|
+| `/` | `ImageController@index` | Landing page utama |
+| `/history` | `PageController@history` | Halaman sejarah |
+| `/vision` | `PageController@vision` | Halaman visi |
+| `/struktur` | `PageController@struktur` | Halaman struktur organisasi |
+| `/layanan` | `PageController@layanan` | Daftar layanan |
+| `/layanan/{id}` | `PageController@serviceDetail` | Detail layanan |
+| `/pengumuman` | `PageController@pengumuman` | List berita/pengumuman |
+| `/pengumuman/{id}` | `PageController@newsDetail` | Detail berita |
+| `/pastors` | `PageController@pastors` | Daftar pastor |
+| `/gallery` | `ImageController@gallery` | Galeri publik |
+| `/image/{id}` | `ImageController@show` | Detail gambar |
+| `/image/{id}/download` | `ImageController@download` | Unduh gambar |
+| `/acara/{news}` | `RegistrasiAcaraController@show` | Detail acara publik |
+| `/persembahan` | `PersembahanController@index` | Form persembahan online |
+| `/persembahan/finish` | `PersembahanController@finish` | Halaman selesai persembahan |
+| `/webhook/midtrans` | `PersembahanController@webhook` | Midtrans callback |
 
 ### Protected Routes (perlu login):
-| Route | Fungsi |
-|-------|--------|
-| `/dashboard` | Dashboard (render `welcome` view with heroSliders) |
-| `/admin/galeri/*` | CRUD galeri (create, store, edit, update, delete) |
-| `/profile/edit` | Edit profil user |
-| `POST /logout` | Logout |
+| Route | Controller | Fungsi |
+|-------|------------|--------|
+| `/dashboard` | `DashboardController@index` | Dashboard user/admin |
+| `/admin/galeri/*` | `ImageController` | CRUD galeri |
+| `/profile/edit` | `ProfileController@edit` | Edit profil user |
+| `/logout` | `AuthController@logout` | Logout |
+| `/absensi` | `AbsensiController@index/store/destroy` | Absensi jemaat |
+| `/dashboard/features/*` | `DashboardFeatureController` | API fitur dashboard |
+
+### Admin Routes (admin middleware):
+| Route | Controller | Fungsi |
+|-------|------------|--------|
+| `/admin/jemaat` | `Admin
+eource Jemaat` | Manage data jemaat |
+| `/admin/pastors` | `Admin
+eource Pastor` | CRUD pastor |
+| `/admin/services` | `Admin
+eource ServiceContent` | CRUD layanan |
+| `/admin/news` | `Admin
+eource NewsSchedule` | CRUD berita dan event |
+| `/admin/schedules` | `Admin
+eource Schedule` | CRUD jadwal ibadah |
+| `/admin/schedules/{schedule}/toggle` | `ScheduleController@toggleActive` | Aktif/nonaktif jadwal |
+| `/admin/notifikasi` | `Admin
+eource Notifikasi` | CRUD notifikasi |
+| `/admin/notifikasi/send-to-all` | `AdminNotifikasiController@sendToAll` | Kirim notifikasi ke semua |
+| `/admin/keuangan` | `Admin
+eource Keuangan` | CRUD transaksi |
+| `/admin/keuangan-report` | `AdminKeuanganController@report` | Laporan keuangan |
+| `/admin/user-approvals` | `UserApprovalController` | Approve/reject registrasi user |
+| `/admin/absensi` | `AbsensiController@adminIndex` | Dashboard absensi admin |
+| `/admin/absensi/{absensi}/approve` | `AbsensiController@approve` | Approve absensi |
+| `/admin/absensi/{absensi}/reject` | `AbsensiController@reject` | Reject absensi |
+| `/admin/absensi/bulk-approve` | `AbsensiController@bulkApprove` | Bulk approve absensi |
+| `/admin/acara/{news}/registrasi` | `RegistrasiAcaraController@adminIndex` | Daftar registrasi acara |
+| `/admin/acara/registrasi/{registrasi}/confirm` | `RegistrasiAcaraController@confirm` | Konfirmasi registrasi acara |
+| `/admin/acara/registrasi/{registrasi}/reject` | `RegistrasiAcaraController@reject` | Reject registrasi acara |
 
 ---
 
-## 📊 Database Schema (10 Tabel Utama)
+## 📊 Database Schema (13+ Tabel Utama)
 
 ### `users`
 - name, email, password, role, is_approved, approved_at, rejection_reason
@@ -151,6 +216,15 @@ gereja-management-system/
 
 ### `notifikasi`
 - jemaat_id (FK), judul, isi, tipe, tanggal_kirim, sudah_dibaca
+
+### `absensis`
+- jemaat_id (FK), tanggal, status, keterangan, approved_by, status_approval
+
+### `persembahans`
+- user_id (FK), jumlah, metode, status, transaction_id, bukti, created_at
+
+### `registrasi_acaras`
+- user_id (FK), news_id (FK), status, jumlah_peserta, nama, kontak
 
 ### `hero_sliders`
 - title, image_path, description, link, button_text, order, is_active
@@ -167,7 +241,7 @@ gereja-management-system/
 ### `services`
 - title, description, icon, color, order, is_active
 
-### `menu_items` (hierarki parent-child)
+### `menu_items`
 - name, slug, icon, url, parent_id, order, is_active, target
 
 ---
@@ -191,29 +265,21 @@ gereja-management-system/
 
 ## ⚠️ Status & Catatan Penting
 
-### 1. Banyak Section di-Comment Out
-Sebagian besar konten di `welcome.blade.php` di-comment (`{{-- --}}`):
-- ❌ Features/Layanan section
-- ❌ Schedule/Jadwal Ibadah section
-- ❌ Gallery section
-- ❌ News/Berita section
-- ✅ Hero Slider (aktif)
-- ✅ CTA Section (aktif)
+### 1. Fitur dan route baru yang aktif
+- Persembahan online sudah ada dengan dukungan Midtrans callback
+- Event/acara sekarang mendukung pendaftaran pengguna dan manajemen admin
+- Absensi jemaat mendukung approval/reject serta bulk approval
+- Jadwal ibadah disediakan sebagai CRUD admin dengan toggle active
+- Notifikasi dapat dikirim ke semua pengguna dari admin
 
-### 2. Admin Dashboard di-Comment
-File `admin/dashboard.blade.php` seluruhnya di-comment. Dashboard menampilkan statistik (total jemaat, user, pemasukan, pengeluaran, saldo) dan tabel notifikasi + transaksi terbaru.
+### 2. Auth routes ganda
+- `routes/web.php` dan `routes/auth.php` sekarang keduanya terdaftar
+- Ini membawa risiko duplikasi route, nama route sama, dan inkonsistensi
 
-### 3. Dashboard Route Bermasalah
-Route `/dashboard` me-render view `welcome` (landing page) bukan view dashboard admin. Ini berarti user yang login dan akses dashboard akan melihat landing page lagi.
-
-### 4. Controller Kosong
-- `LayananController.php` — hanya 8 bytes (kosong)
-
-### 5. ImageController Tidak Lengkap
-- Method `edit()`, `update()`, `destroy()` belum ada, tapi sudah didaftarkan di routes
-
-### 6. Ngrok URL di .env
-`APP_URL` mengarah ke ngrok tunnel: `https://surfer-cage-occupier.ngrok-free.dev`
+### 3. Bagian yang perlu perbaikan
+- `app/Http/Controllers/LayananController.php` kosong/malformatted
+- Beberapa view admin masih tampak partial atau belum diaktifkan sepenuhnya
+- Struktur route admin cukup kompleks; perlu audit untuk memastikan middleware dan akses benar
 
 ---
 
@@ -223,13 +289,17 @@ Route `/dashboard` me-render view `welcome` (landing page) bukan view dashboard 
 User (1) ──── (1) Jemaat
                     │
                     ├── (N) Keuangan
-                    └── (N) Notifikasi
+                    ├── (N) Notifikasi
+                    ├── (N) Absensi
+                    ├── (N) Persembahan
+                    └── (N) RegistrasiAcara
 
 HeroSlider (standalone)
 Image (standalone)
 News (standalone)
 Schedule (standalone)
 Service (standalone)
+Pastor (standalone)
 MenuItem (self-referencing: parent_id)
 ```
 

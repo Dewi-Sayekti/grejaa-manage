@@ -582,7 +582,7 @@
         <!-- SIDEBAR -->
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-brand">
-                <img src="{{ asset('images/Logo.png') }}" alt="Logo" onerror="this.style.display='none'">
+                <img src="{{ asset('images/Logobaru.png') }}" alt="Logo" class="h-10 w-auto" onerror="this.style.display='none'">
                 <span class="sidebar-brand-text">Gereja YHS</span>
             </div>
 

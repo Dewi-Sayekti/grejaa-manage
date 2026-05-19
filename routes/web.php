@@ -67,7 +67,7 @@ Route::middleware('auth')->group(function () {
     Route::middleware('admin')->prefix('admin')->name('admin.')->group(function () {
 
         // Jemaat
-        Route::resource('jemaat', AdminJemaatController::class)->only(['index', 'show', 'destroy']);
+        Route::resource('jemaat', AdminJemaatController::class)->except(['show']);
 
         // Pastors
         Route::resource('pastors', PastorController::class)->except(['show']);

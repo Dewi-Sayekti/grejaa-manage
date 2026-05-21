@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ImageController;
@@ -12,7 +11,6 @@ use App\Http\Controllers\PersembahanController;
 use App\Http\Controllers\RegistrasiAcaraController;
 use App\Http\Controllers\UserApprovalController;
 use App\Http\Controllers\DashboardFeatureController;
-
 use App\Http\Controllers\Admin\PastorController;
 use App\Http\Controllers\Admin\ServiceContentController;
 use App\Http\Controllers\Admin\NewsScheduleController;
@@ -185,8 +183,7 @@ Route::middleware(['auth', 'admin'])
         // JEMAAT
         // ============================================================
 
-        Route::resource('jemaat', AdminJemaatController::class)
-            ->only(['index', 'show', 'destroy']);
+        Route::resource('jemaat', AdminJemaatController::class);
 
         // Pastors
         Route::resource('pastors', PastorController::class)

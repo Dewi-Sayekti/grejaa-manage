@@ -10,6 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -611,7 +612,7 @@
                     <a href="{{ route('admin.user-approvals.index') }}" class="sidebar-link {{ request()->routeIs('admin.user-approvals.index') ? 'active' : '' }}">
                         <i class="fas fa-user-check"></i> Persetujuan User
                     </a>
-                    
+
                     <div class="sidebar-label">Konten</div>
                     <a href="{{ route('admin.pastors.index') }}" class="sidebar-link {{ request()->routeIs('admin.pastors.*') ? 'active' : '' }}">
                         <i class="fas fa-user-tie"></i> Pemimpin
@@ -646,7 +647,7 @@
                     <a href="{{ route('dashboard') }}" class="sidebar-link">
                         <i class="fas fa-bell"></i> Notifikasi
                     </a>
-                    
+
                     <div class="sidebar-label">Konten Gereja</div>
                     <a href="{{ route('dashboard.features.pastors') }}" class="sidebar-link {{ request()->routeIs('dashboard.features.pastors') ? 'active' : '' }}">
                         <i class="fas fa-user-tie"></i> Pemimpin
@@ -714,12 +715,6 @@
             </header>
 
             <div class="content-area">
-                @if(session('success'))
-                    <div style="background:#d1fae5;color:#065f46;padding:14px 20px;border-radius:8px;margin-bottom:20px;font-size:14px;">
-                        <i class="fas fa-check-circle" style="margin-right:8px;"></i>{{ session('success') }}
-                    </div>
-                @endif
-
                 @yield('content')
             </div>
         </div>
@@ -743,6 +738,37 @@
                 overlay.classList.remove('show');
             });
         }
+
+        // Pop-up untuk success message
+        @if(session('success'))
+            const successMessage = "{{ session('success') }}";
+            let iconType = 'success';
+            let titleText = 'Berhasil!';
+
+            // Customize based on message
+            if (successMessage.includes('Jadwal')) {
+                titleText = successMessage.includes('diperbarui') ? 'Jadwal Diperbarui!' : 'Jadwal Ditambahkan!';
+            } else if (successMessage.includes('dihapus')) {
+                titleText = 'Dihapus!';
+            }
+
+            Swal.fire({
+                title: titleText,
+                text: successMessage,
+                icon: iconType,
+                confirmButtonText: 'Kembali',
+                confirmButtonColor: '#d4af37',
+                allowOutsideClick: false,
+                allowEscapeKey: false
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Jika dari jadwal, pastikan refresh di index jadwal
+                    if (successMessage.includes('Jadwal')) {
+                        window.location.href = "{{ route('admin.schedules.index') }}";
+                    }
+                }
+            });
+        @endif
     </script>
 </body>
 </html>

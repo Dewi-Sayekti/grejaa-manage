@@ -2,6 +2,62 @@
 
 @section('content')
 <div class="max-w-6xl mx-auto py-12 px-6">
+    {{-- Section: Pengumuman Jadwal Ibadah Terbaru --}}
+    @if($scheduleAnnouncements->isNotEmpty())
+    <div class="mb-20">
+        <div class="flex items-center justify-between mb-8">
+            <div>
+                <h2 class="text-3xl font-extrabold text-gray-900" style="font-family:'Playfair Display', serif;">⏰ Pembaruan Jadwal Ibadah</h2>
+                <p class="text-gray-500 mt-2">Pengumuman terbaru mengenai jadwal ibadah dari administrator.</p>
+            </div>
+        </div>
+
+        <div class="space-y-4">
+            @foreach($scheduleAnnouncements as $announcement)
+                <div class="bg-gradient-to-r from-blue-50 to-indigo-50 border-l-4 border-blue-500 rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
+                    <div class="flex items-start justify-between gap-4">
+                        <div class="flex-1">
+                            <div class="flex items-center gap-3 mb-2">
+                                <span class="inline-block bg-blue-100 text-blue-700 text-xs font-bold px-3 py-1 rounded-full">
+                                    <i class="fas fa-bell mr-1"></i> JADWAL
+                                </span>
+                                <span class="text-gray-500 text-xs">
+                                    <i class="fas fa-clock mr-1"></i> {{ $announcement->tanggal_kirim->format('d M Y H:i') }}
+                                </span>
+                                @if($announcement->tipe === 'penting')
+                                    <span class="inline-block bg-red-100 text-red-700 text-xs font-bold px-2 py-1 rounded">⚠️ PENTING</span>
+                                @endif
+                            </div>
+                            <h3 class="text-lg font-bold text-gray-800 mb-2">{{ $announcement->judul }}</h3>
+                            <p class="text-gray-700 text-sm leading-relaxed">{{ $announcement->isi }}</p>
+                        </div>
+                        <div class="flex-shrink-0">
+                            @auth
+                                @if(auth()->user()->role === 'admin')
+                                    <a href="{{ route('admin.schedules.index') }}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-blue-700 transition-colors">
+                                        <i class="fas fa-calendar-check"></i> Lihat di Admin
+                                    </a>
+                                @else
+                                    <a href="{{ route('jadwal-ibadah') }}" class="inline-flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-blue-700 transition-colors">
+                                        <i class="fas fa-calendar-check"></i> Lihat Jadwal
+                                    </a>
+                                @endif
+                            @endauth
+                            @guest
+                                <a href="{{ route('jadwal-ibadah') }}" class="inline-flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-blue-700 transition-colors">
+                                    <i class="fas fa-calendar-check"></i> Lihat Jadwal
+                                </a>
+                            @endguest
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+    </div>
+
+    <hr class="border-gray-100 mb-20">
+    @endif
+
     {{-- Section: Acara Mendatang --}}
     <div class="mb-20">
         <div class="flex items-center justify-between mb-8">

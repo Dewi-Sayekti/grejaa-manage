@@ -17,7 +17,10 @@ class User extends Authenticatable
         'role',
         'is_approved',
         'approved_at',
+        'approved_by',
         'rejection_reason',
+        'rejected_by',
+        'rejected_at',
         'nama_lengkap',
         'jenis_kelamin',
         'tempat_lahir',
@@ -33,11 +36,22 @@ class User extends Authenticatable
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
         'approved_at' => 'datetime',
+        'rejected_at' => 'datetime',
     ];
 
     public function jemaat()
     {
         return $this->hasOne(Jemaat::class);
+    }
+
+    public function approvedBy()
+    {
+        return $this->belongsTo(User::class, 'approved_by');
+    }
+
+    public function rejectedBy()
+    {
+        return $this->belongsTo(User::class, 'rejected_by');
     }
 
     public function isAdmin()

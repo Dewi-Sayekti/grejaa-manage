@@ -32,7 +32,16 @@ class PageController extends Controller
     public function pengumuman() {
         $news = \App\Models\News::where('is_event', false)->where('is_published', true)->latest()->get();
         $events = \App\Models\News::where('is_event', true)->where('is_published', true)->orderBy('tanggal_acara', 'asc')->get();
-        return view('page.pengumuman', compact('news', 'events'));
+
+        // Ambil pengumuman jadwal ibadah terbaru (dari 7 hari terakhir)
+        $scheduleAnnouncements = \App\Models\Notifikasi::where('tipe', 'pengumuman')
+            ->orWhere('tipe', 'penting')
+            ->where('judul', 'like', '%Jadwal%')
+            ->orderBy('tanggal_kirim', 'desc')
+            ->limit(5)
+            ->get();
+
+        return view('page.pengumuman', compact('news', 'events', 'scheduleAnnouncements'));
     }
 
     public function newsDetail($id) {
@@ -43,5 +52,13 @@ class PageController extends Controller
     public function pastors() {
         $pastors = \App\Models\Pastor::all();
         return view('page.pastors', compact('pastors'));
+    }
+
+    public function jadwalIbadah() {
+        $schedules = \App\Models\Schedule::where('is_active', true)
+            ->orderBy('order')
+            ->orderBy('day')
+            ->get();
+        return view('page.jadwal-ibadah', compact('schedules'));
     }
 }

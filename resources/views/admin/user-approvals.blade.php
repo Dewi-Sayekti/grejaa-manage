@@ -69,8 +69,10 @@
                         <tr>
                             <th>Nama</th>
                             <th>Email</th>
+                            <th>Disetujui Oleh</th>
                             <th>Disetujui Pada</th>
                             <th>Role</th>
+                            <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -78,13 +80,25 @@
                             <tr>
                                 <td><strong>{{ $user->name }}</strong></td>
                                 <td>{{ $user->email }}</td>
-                                <td class="text-center">{{ $user->created_at ? $user->created_at->format('d/m/Y H:i') : '-' }}</td>
-                                <td class="text-center">{{ $user->approved_at ? $user->approved_at->format('d/m/Y H:i') : '-' }}</td>
-                                <td><span class="badge {{ $user->role == 'admin' ? 'badge-danger' : 'badge-success' }}">{{ ucfirst($user->role) }}</span></td>
+                                <td>
+                                    <span style="font-weight:600; color:var(--text-dark);">
+                                        {{ $user->approvedBy->name ?? 'System/Auto' }}
+                                    </span>
+                                </td>
+                                <td>{{ $user->approved_at ? $user->approved_at->format('d/m/Y H:i') : $user->created_at->format('d/m/Y H:i') }}</td>
+                                <td>
+                                    <select id="role-{{ $user->id }}" onchange="updateUserRole({{ $user->id }})" style="padding:6px 10px; border-radius:6px; border:1px solid var(--border); background:var(--bg-body); color:var(--text-dark); font-size:13px; cursor:pointer;">
+                                        <option value="jemaat" {{ $user->role === 'jemaat' ? 'selected' : '' }}>Jemaat</option>
+                                        <option value="admin" {{ $user->role === 'admin' ? 'selected' : '' }}>Admin</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <button onclick="confirmRoleChange({{ $user->id }}, document.getElementById('role-{{ $user->id }}').value)" class="topbar-logout" style="padding:6px 12px; font-size:11px; background:var(--gold); color:#1e1a14;">Simpan</button>
+                                </td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="5" style="text-align:center; padding:30px;">Belum ada user yang disetujui.</td>
+                                <td colspan="6" style="text-align:center; padding:30px;">Belum ada user yang disetujui.</td>
                             </tr>
                         @endforelse
                     </tbody>
@@ -100,6 +114,8 @@
                         <tr>
                             <th>Nama</th>
                             <th>Email</th>
+                            <th>Ditolak Oleh</th>
+                            <th>Ditolak Pada</th>
                             <th>Alasan Penolakan</th>
                             <th>Aksi</th>
                         </tr>
@@ -109,6 +125,12 @@
                             <tr>
                                 <td><strong>{{ $user->name }}</strong></td>
                                 <td>{{ $user->email }}</td>
+                                <td>
+                                    <span style="font-weight:600; color:var(--text-dark);">
+                                        {{ $user->rejectedBy->name ?? 'System/Auto' }}
+                                    </span>
+                                </td>
+                                <td>{{ $user->rejected_at ? $user->rejected_at->format('d/m/Y H:i') : '-' }}</td>
                                 <td><span style="color:var(--danger); font-size:12px;">{{ $user->rejection_reason }}</span></td>
                                 <td>
                                     <form action="{{ route('admin.user-approvals.approve', $user->id) }}" method="POST">
@@ -120,7 +142,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="4" style="text-align:center; padding:30px;">Tidak ada riwayat penolakan.</td>
+                                <td colspan="6" style="text-align:center; padding:30px;">Tidak ada riwayat penolakan.</td>
                             </tr>
                         @endforelse
                     </tbody>
@@ -158,7 +180,7 @@ function showTab(tab) {
     document.getElementById('pending-content').style.display = 'none';
     document.getElementById('approved-content').style.display = 'none';
     document.getElementById('rejected-content').style.display = 'none';
-    
+
     // Reset buttons
     const btns = ['pending', 'approved', 'rejected'];
     btns.forEach(b => {
@@ -180,6 +202,64 @@ function openRejectModal(id, name) {
 
 function closeRejectModal() {
     document.getElementById('rejectModal').style.display = 'none';
+}
+
+function confirmRoleChange(userId, newRole) {
+    Swal.fire({
+        title: 'Ubah Role',
+        text: 'Anda yakin ingin mengubah role user ini ke ' + (newRole === 'admin' ? 'Admin' : 'Jemaat') + '?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Ubah',
+        cancelButtonText: 'Batal',
+        confirmButtonColor: '#d4af37',
+        cancelButtonColor: '#6b7280'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            updateUserRole(userId, newRole, true);
+        }
+    });
+}
+
+function updateUserRole(userId, newRole = null, confirmed = false) {
+    if (!newRole) {
+        newRole = document.getElementById('role-' + userId).value;
+    }
+
+    if (!confirmed) {
+        confirmRoleChange(userId, newRole);
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append('role', newRole);
+    formData.append('_token', '{{ csrf_token() }}');
+    formData.append('_method', 'PATCH');
+
+    fetch('{{ url("admin/user-approvals") }}/' + userId + '/update-role', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            Swal.fire({
+                title: 'Berhasil!',
+                text: data.message,
+                icon: 'success',
+                confirmButtonText: 'OK',
+                confirmButtonColor: '#d4af37'
+            }).then(() => {
+                location.reload();
+            });
+        } else {
+            Swal.fire('Error', data.message || 'Gagal mengubah role', 'error');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        Swal.fire('Error', 'Terjadi kesalahan', 'error');
+    });
 }
 </script>
 @endsection

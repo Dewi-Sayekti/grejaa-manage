@@ -287,5 +287,26 @@ document.addEventListener('DOMContentLoaded', function() {
         toggleJenis();
     @endif
 });
+
+// Form submit handler untuk show loading popup
+document.querySelector('form').addEventListener('submit', function(e) {
+    const submitBtn = this.querySelector('button[type="submit"]');
+    const jadwalTitle = document.querySelector('input[name="title"]').value;
+
+    // Show loading popup
+    Swal.fire({
+        title: 'Menyimpan Jadwal...',
+        text: jadwalTitle,
+        icon: 'info',
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        didOpen: (modal) => {
+            Swal.showLoading();
+        }
+    });
+
+    // Disable submit button
+    submitBtn.disabled = true;
+});
 </script>
 @endsection

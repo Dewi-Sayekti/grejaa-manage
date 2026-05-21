@@ -313,15 +313,18 @@
 
 <script>
 // Data jadwal untuk JS
-const jadwalData = @json($schedules->map(fn($s) => [
-    'id'      => $s->id,
-    'title'   => $s->title,
-    'emoji'   => $s->emoji ?? '📅',
-    'day'     => $s->day ?? '',
-    'tanggal' => $s->tanggal ? $s->tanggal->format('Y-m-d') : '',
+@php
+$jadwalJson = $schedules->map(fn($s) => [
+    'id'         => $s->id,
+    'title'      => $s->title,
+    'emoji'      => $s->emoji ?? '📅',
+    'day'        => $s->day ?? '',
+    'tanggal'    => $s->tanggal ? $s->tanggal->format('Y-m-d') : '',
     'start_time' => $s->start_time ? \Carbon\Carbon::parse($s->start_time)->format('H:i') : '',
     'location'   => $s->location ?? '',
-]));
+]);
+@endphp
+const jadwalData = @json($jadwalJson);
 
 function pilihJadwal(id, title, day, tanggal) {
     // Update active state

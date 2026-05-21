@@ -628,7 +628,7 @@
                     <i class="fas fa-newspaper"></i> Berita & Pengumuman
                     </a>
                     <a href="{{ route('admin.absensi.index') }}" class="sidebar-link {{ request()->routeIs('admin.absensi.*') ? 'active' : '' }}">
-                        <i class="fas fa-clipboard-list"></i> Absensi Jemaat
+                        <i class="fas fa-clipboard-list"></i> Presensi Jemaat
                     </a>
                     @php $pendingAbs = \App\Models\Absensi::where('approval_status','pending')->count(); @endphp
                     @if($pendingAbs > 0)
@@ -659,7 +659,7 @@
                     </a>
                     <a href="{{ route('absensi.index') }}"
                     class="sidebar-link {{ request()->routeIs('absensi.*') ? 'active' : '' }}">
-                    <i class="fas fa-clipboard-check"></i> Absensi Saya
+                    <i class="fas fa-clipboard-check"></i> Presensi Saya
                     </a>
                     <a href="{{ route('persembahan.index') }}"
                     class="sidebar-link {{ request()->routeIs('persembahan.*') ? 'active' : '' }}">
@@ -751,7 +751,7 @@
 {{-- Letakkan setelah link Notifikasi di bagian @else --}}
 <a href="{{ route('absensi.index') }}"
    class="sidebar-link {{ request()->routeIs('absensi.*') ? 'active' : '' }}">
-    <i class="fas fa-clipboard-check"></i> Absensi Saya
+    <i class="fas fa-clipboard-check"></i> Presensi Saya
 </a>
 
 {{--
@@ -763,7 +763,7 @@
 {{-- Letakkan setelah link "Persetujuan User" di bagian admin --}}
 <a href="{{ route('admin.absensi.index') }}"
    class="sidebar-link {{ request()->routeIs('admin.absensi.*') ? 'active' : '' }}">
-    <i class="fas fa-clipboard-list"></i> Absensi
+    <i class="fas fa-clipboard-list"></i> Presensi
     @php $pendingAbs = \App\Models\Absensi::where('approval_status','pending')->count(); @endphp
     @if($pendingAbs > 0)
         <span style="margin-left:auto;background:var(--danger);color:#fff;font-size:10px;font-weight:700;padding:2px 6px;border-radius:10px;">

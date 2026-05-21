@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
 
-@section('title', 'Absensi Saya')
-@section('page-title', 'Absensi Ibadah')
+@section('title', 'Presensi Saya')
+@section('page-title', 'Presensi Ibadah')
 
 @section('content')
 
@@ -137,7 +137,7 @@
 
                 <div class="abs-note">
                     <i class="fas fa-info-circle"></i>
-                    Absensi akan diverifikasi admin sebelum tercatat resmi.
+                    Presensi akan diverifikasi admin sebelum tercatat resmi.
                 </div>
             </form>
         </div>
@@ -152,7 +152,7 @@
     {{-- === PANEL KANAN: Riwayat === --}}
     <div class="abs-list-card">
         <div class="abs-list-header">
-            <span>Riwayat Absensi</span>
+            <span>Riwayat Presensi</span>
             <span class="abs-total">{{ $absensis->total() }} data</span>
         </div>
 
@@ -229,7 +229,7 @@
         @else
         <div class="empty-state" style="padding:48px 20px;">
             <i class="fas fa-clipboard"></i>
-            <p>Belum ada riwayat absensi.<br>Pilih jadwal dan catat kehadiran pertama Anda!</p>
+            <p>Belum ada riwayat presensi.<br>Pilih jadwal dan catat presensi pertama Anda!</p>
         </div>
         @endif
     </div>
@@ -313,15 +313,18 @@
 
 <script>
 // Data jadwal untuk JS
-const jadwalData = @json($schedules->map(fn($s) => [
-    'id'      => $s->id,
-    'title'   => $s->title,
-    'emoji'   => $s->emoji ?? '📅',
-    'day'     => $s->day ?? '',
-    'tanggal' => $s->tanggal ? $s->tanggal->format('Y-m-d') : '',
+@php
+$jadwalJson = $schedules->map(fn($s) => [
+    'id'         => $s->id,
+    'title'      => $s->title,
+    'emoji'      => $s->emoji ?? '📅',
+    'day'        => $s->day ?? '',
+    'tanggal'    => $s->tanggal ? $s->tanggal->format('Y-m-d') : '',
     'start_time' => $s->start_time ? \Carbon\Carbon::parse($s->start_time)->format('H:i') : '',
     'location'   => $s->location ?? '',
-]));
+]);
+@endphp
+const jadwalData = @json($jadwalJson);
 
 function pilihJadwal(id, title, day, tanggal) {
     // Update active state

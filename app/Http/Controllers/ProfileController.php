@@ -109,7 +109,7 @@ class ProfileController extends Controller
             'tempat_lahir'      => ['nullable', 'string', 'max:100'],
             'tanggal_lahir'     => ['nullable', 'date', 'before:today'],
             'nomor_hp'          => ['nullable', 'string', 'max:20'],
-            'no_identitas'      => ['nullable', 'string', 'max:20'],
+            'golongan_darah'    => ['nullable', 'string', 'max:5'],
             'alamat'            => ['nullable', 'string', 'max:500'],
             'status_pernikahan' => ['nullable', 'string', 'in:Belum Menikah,Menikah,Janda,Duda'],
             'tanggal_baptis'    => ['nullable', 'date'],
@@ -126,7 +126,7 @@ class ProfileController extends Controller
 
         $jemaat->update($request->only([
             'nama_lengkap', 'jenis_kelamin', 'tempat_lahir',
-            'tanggal_lahir', 'nomor_hp', 'no_identitas',
+            'tanggal_lahir', 'nomor_hp', 'golongan_darah',
             'alamat', 'status_pernikahan', 'tanggal_baptis',
         ]));
 

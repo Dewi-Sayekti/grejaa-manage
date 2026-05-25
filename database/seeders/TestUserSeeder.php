@@ -33,7 +33,7 @@ class TestUserSeeder extends Seeder
                 'alamat' => 'Jl. Gereja No. 1, Jakarta',
                 'nomor_hp' => '081234567890',
                 'status_pernikahan' => 'Menikah',
-                'no_identitas' => '3171011501900001',
+                'golongan_darah' => 'O',
                 'tanggal_baptis' => '2005-06-20',
                 'status_aktif' => 'Aktif',
             ]
@@ -61,7 +61,7 @@ class TestUserSeeder extends Seeder
                 'alamat' => 'Jl. Mawar No. 5, Bandung',
                 'nomor_hp' => '082198765432',
                 'status_pernikahan' => 'Belum Menikah',
-                'no_identitas' => '3273062208950002',
+                'golongan_darah' => 'AB',
                 'tanggal_baptis' => '2010-12-25',
                 'status_aktif' => 'Aktif',
             ]

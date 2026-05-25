@@ -39,14 +39,15 @@ class JemaatController extends Controller
             'nama_lengkap' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
-            'jenis_kelamin' => 'required|in:Laki-laki,Perempuan',
-            'tempat_lahir' => 'required|string|max:255',
-            'tanggal_lahir' => 'required|date',
-            'alamat' => 'required|string',
-            'nomor_hp' => 'required|string|max:20',
-            'status_pernikahan' => 'required|in:Belum Menikah,Menikah,Duda,Janda',
+            'jenis_kelamin' => 'nullable|in:Laki-laki,Perempuan',
+            'tempat_lahir' => 'nullable|string|max:255',
+            'tanggal_lahir' => 'nullable|date',
+            'alamat' => 'nullable|string',
+            'nomor_hp' => 'nullable|string|max:20',
+            'status_pernikahan' => 'nullable|in:Belum Menikah,Menikah,Duda,Janda',
             'tanggal_baptis' => 'nullable|date',
-            'status_aktif' => 'required|in:Aktif,Tidak Aktif',
+            'status_aktif' => 'nullable|in:Aktif,Tidak Aktif',
+            'golongan_darah' => 'nullable|string|max:5',
         ]);
 
         $user = User::create([
@@ -66,7 +67,8 @@ class JemaatController extends Controller
             'nomor_hp' => $request->nomor_hp,
             'status_pernikahan' => $request->status_pernikahan,
             'tanggal_baptis' => $request->tanggal_baptis,
-            'status_aktif' => $request->status_aktif,
+            'status_aktif' => $request->status_aktif ?? 'Aktif',
+            'golongan_darah' => $request->golongan_darah,
         ]);
 
         return redirect()->route('admin.jemaat.index')
@@ -96,6 +98,7 @@ class JemaatController extends Controller
             'alamat' => 'required|string',
             'nomor_hp' => 'required|string|max:20',
             'status_pernikahan' => 'required|in:Belum Menikah,Menikah,Duda,Janda',
+            'golongan_darah' => 'nullable|string|max:5',
             'tanggal_baptis' => 'nullable|date',
             'status_aktif' => 'required|in:Aktif,Tidak Aktif',
         ]);
@@ -116,6 +119,7 @@ class JemaatController extends Controller
             'alamat' => $request->alamat,
             'nomor_hp' => $request->nomor_hp,
             'status_pernikahan' => $request->status_pernikahan,
+            'golongan_darah' => $request->golongan_darah,
             'tanggal_baptis' => $request->tanggal_baptis,
             'status_aktif' => $request->status_aktif,
         ]);

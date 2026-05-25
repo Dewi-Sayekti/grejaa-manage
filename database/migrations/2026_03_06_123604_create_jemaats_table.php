@@ -29,7 +29,6 @@ return new class extends Migration
             $table->enum('status_aktif', ['Aktif', 'Tidak Aktif'])->default('Aktif');
 
             // File & Identitas
-            $table->string('no_identitas')->unique();
             $table->string('foto')->nullable();
 
             $table->timestamps();

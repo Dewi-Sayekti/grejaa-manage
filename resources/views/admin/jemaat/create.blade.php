@@ -54,8 +54,8 @@
 
                 <!-- Jenis Kelamin -->
                 <div style="margin-bottom: 15px;">
-                    <label style="display:block; margin-bottom:5px; font-weight:600; font-size:14px;">Jenis Kelamin</label>
-                    <select name="jenis_kelamin" required style="width:100%; padding:10px; border:1px solid var(--border); border-radius:8px;">
+                    <label style="display:block; margin-bottom:5px; font-weight:600; font-size:14px;">Jenis Kelamin (Opsional)</label>
+                    <select name="jenis_kelamin" style="width:100%; padding:10px; border:1px solid var(--border); border-radius:8px;">
                         <option value="">-- Pilih --</option>
                         <option value="Laki-laki" {{ old('jenis_kelamin') == 'Laki-laki' ? 'selected' : '' }}>Laki-laki</option>
                         <option value="Perempuan" {{ old('jenis_kelamin') == 'Perempuan' ? 'selected' : '' }}>Perempuan</option>
@@ -65,29 +65,29 @@
 
                 <!-- Tempat Lahir -->
                 <div style="margin-bottom: 15px;">
-                    <label style="display:block; margin-bottom:5px; font-weight:600; font-size:14px;">Tempat Lahir</label>
-                    <input type="text" name="tempat_lahir" value="{{ old('tempat_lahir') }}" required style="width:100%; padding:10px; border:1px solid var(--border); border-radius:8px;">
+                    <label style="display:block; margin-bottom:5px; font-weight:600; font-size:14px;">Tempat Lahir (Opsional)</label>
+                    <input type="text" name="tempat_lahir" value="{{ old('tempat_lahir') }}" style="width:100%; padding:10px; border:1px solid var(--border); border-radius:8px;">
                     @error('tempat_lahir')<div style="color:var(--danger); font-size:12px; margin-top:5px;">{{ $message }}</div>@enderror
                 </div>
 
                 <!-- Tanggal Lahir -->
                 <div style="margin-bottom: 15px;">
-                    <label style="display:block; margin-bottom:5px; font-weight:600; font-size:14px;">Tanggal Lahir</label>
-                    <input type="date" name="tanggal_lahir" value="{{ old('tanggal_lahir') }}" required style="width:100%; padding:10px; border:1px solid var(--border); border-radius:8px;">
+                    <label style="display:block; margin-bottom:5px; font-weight:600; font-size:14px;">Tanggal Lahir (Opsional)</label>
+                    <input type="date" name="tanggal_lahir" value="{{ old('tanggal_lahir') }}" style="width:100%; padding:10px; border:1px solid var(--border); border-radius:8px;">
                     @error('tanggal_lahir')<div style="color:var(--danger); font-size:12px; margin-top:5px;">{{ $message }}</div>@enderror
                 </div>
 
                 <!-- Nomor HP -->
                 <div style="margin-bottom: 15px;">
-                    <label style="display:block; margin-bottom:5px; font-weight:600; font-size:14px;">Nomor HP</label>
-                    <input type="text" name="nomor_hp" value="{{ old('nomor_hp') }}" required style="width:100%; padding:10px; border:1px solid var(--border); border-radius:8px;">
+                    <label style="display:block; margin-bottom:5px; font-weight:600; font-size:14px;">Nomor HP (Opsional)</label>
+                    <input type="text" name="nomor_hp" value="{{ old('nomor_hp') }}" style="width:100%; padding:10px; border:1px solid var(--border); border-radius:8px;">
                     @error('nomor_hp')<div style="color:var(--danger); font-size:12px; margin-top:5px;">{{ $message }}</div>@enderror
                 </div>
 
                 <!-- Status Pernikahan -->
                 <div style="margin-bottom: 15px;">
-                    <label style="display:block; margin-bottom:5px; font-weight:600; font-size:14px;">Status Pernikahan</label>
-                    <select name="status_pernikahan" required style="width:100%; padding:10px; border:1px solid var(--border); border-radius:8px;">
+                    <label style="display:block; margin-bottom:5px; font-weight:600; font-size:14px;">Status Pernikahan (Opsional)</label>
+                    <select name="status_pernikahan" style="width:100%; padding:10px; border:1px solid var(--border); border-radius:8px;">
                         <option value="">-- Pilih --</option>
                         <option value="Belum Menikah" {{ old('status_pernikahan') == 'Belum Menikah' ? 'selected' : '' }}>Belum Menikah</option>
                         <option value="Menikah" {{ old('status_pernikahan') == 'Menikah' ? 'selected' : '' }}>Menikah</option>
@@ -103,22 +103,30 @@
                     <input type="date" name="tanggal_baptis" value="{{ old('tanggal_baptis') }}" style="width:100%; padding:10px; border:1px solid var(--border); border-radius:8px;">
                     @error('tanggal_baptis')<div style="color:var(--danger); font-size:12px; margin-top:5px;">{{ $message }}</div>@enderror
                 </div>
-                
+
                 <!-- Status Aktif -->
                 <div style="margin-bottom: 15px;">
-                    <label style="display:block; margin-bottom:5px; font-weight:600; font-size:14px;">Status Aktif</label>
-                    <select name="status_aktif" required style="width:100%; padding:10px; border:1px solid var(--border); border-radius:8px;">
+                    <label style="display:block; margin-bottom:5px; font-weight:600; font-size:14px;">Status Aktif (Opsional)</label>
+                    <select name="status_aktif" style="width:100%; padding:10px; border:1px solid var(--border); border-radius:8px;">
+                        <option value="">-- Pilih --</option>
                         <option value="Aktif" {{ old('status_aktif') == 'Aktif' ? 'selected' : '' }}>Aktif</option>
                         <option value="Tidak Aktif" {{ old('status_aktif') == 'Tidak Aktif' ? 'selected' : '' }}>Tidak Aktif</option>
                     </select>
                     @error('status_aktif')<div style="color:var(--danger); font-size:12px; margin-top:5px;">{{ $message }}</div>@enderror
                 </div>
+
+                <!-- Golongan Darah -->
+                <div style="margin-bottom: 15px;">
+                    <label style="display:block; margin-bottom:5px; font-weight:600; font-size:14px;">Golongan Darah (Opsional)</label>
+                    <input type="text" name="golongan_darah" value="{{ old('golongan_darah') }}" placeholder="A, B, AB, O" style="width:100%; padding:10px; border:1px solid var(--border); border-radius:8px;">
+                    @error('golongan_darah')<div style="color:var(--danger); font-size:12px; margin-top:5px;">{{ $message }}</div>@enderror
+                </div>
             </div>
 
             <!-- Alamat -->
             <div style="margin-bottom: 20px;">
-                <label style="display:block; margin-bottom:5px; font-weight:600; font-size:14px;">Alamat Lengkap</label>
-                <textarea name="alamat" required rows="3" style="width:100%; padding:10px; border:1px solid var(--border); border-radius:8px;">{{ old('alamat') }}</textarea>
+                <label style="display:block; margin-bottom:5px; font-weight:600; font-size:14px;">Alamat Lengkap (Opsional)</label>
+                <textarea name="alamat" rows="3" style="width:100%; padding:10px; border:1px solid var(--border); border-radius:8px;">{{ old('alamat') }}</textarea>
                 @error('alamat')<div style="color:var(--danger); font-size:12px; margin-top:5px;">{{ $message }}</div>@enderror
             </div>
 

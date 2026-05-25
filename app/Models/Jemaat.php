@@ -23,7 +23,7 @@ class Jemaat extends Model
         'status_pernikahan',
         'tanggal_baptis',
         'status_aktif',
-        'no_identitas',
+        'golongan_darah',
         'foto',
     ];
 

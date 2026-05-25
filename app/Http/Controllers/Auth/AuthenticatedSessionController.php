@@ -28,7 +28,7 @@ class AuthenticatedSessionController extends Controller
             'alamat'            => 'required|string',
             'nomor_hp'          => 'required|string',
             'status_pernikahan' => 'required|in:Belum Menikah,Menikah,Duda,Janda',
-            'no_identitas'      => 'required|unique:jemaats',
+            'golongan_darah'    => 'nullable|string|max:5',
             'tanggal_baptis'    => 'nullable|date',
         ]);
 
@@ -49,7 +49,7 @@ class AuthenticatedSessionController extends Controller
             'nomor_hp'          => $validated['nomor_hp'],
             'status_pernikahan' => $validated['status_pernikahan'],
             'tanggal_baptis'    => $validated['tanggal_baptis'] ?? null,
-            'no_identitas'      => $validated['no_identitas'],
+            'golongan_darah'    => $validated['golongan_darah'] ?? null,
             'status_aktif'      => 'Aktif',
         ]);
 

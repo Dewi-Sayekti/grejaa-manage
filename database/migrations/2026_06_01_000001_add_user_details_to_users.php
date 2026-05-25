@@ -20,7 +20,6 @@ return new class extends Migration
             $table->string('nomor_hp')->nullable();
             $table->enum('status_pernikahan', ['Belum Menikah', 'Menikah', 'Duda', 'Janda'])->nullable();
             $table->date('tanggal_baptis')->nullable();
-            $table->string('no_identitas')->nullable();
         });
     }
 
@@ -39,7 +38,6 @@ return new class extends Migration
                 'nomor_hp',
                 'status_pernikahan',
                 'tanggal_baptis',
-                'no_identitas',
             ]);
         });
     }

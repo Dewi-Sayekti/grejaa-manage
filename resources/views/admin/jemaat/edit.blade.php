@@ -98,13 +98,20 @@
                     @error('status_pernikahan')<div style="color:var(--danger); font-size:12px; margin-top:5px;">{{ $message }}</div>@enderror
                 </div>
 
+                <!-- Golongan Darah -->
+                <div style="margin-bottom: 15px;">
+                    <label style="display:block; margin-bottom:5px; font-weight:600; font-size:14px;">Golongan Darah</label>
+                    <input type="text" name="golongan_darah" value="{{ old('golongan_darah', $jemaat->golongan_darah) }}" placeholder="A, B, AB, O" style="width:100%; padding:10px; border:1px solid var(--border); border-radius:8px;" maxlength="5">
+                    @error('golongan_darah')<div style="color:var(--danger); font-size:12px; margin-top:5px;">{{ $message }}</div>@enderror
+                </div>
+
                 <!-- Tanggal Baptis -->
                 <div style="margin-bottom: 15px;">
                     <label style="display:block; margin-bottom:5px; font-weight:600; font-size:14px;">Tanggal Baptis (Opsional)</label>
                     <input type="date" name="tanggal_baptis" value="{{ old('tanggal_baptis', $jemaat->tanggal_baptis ? $jemaat->tanggal_baptis->format('Y-m-d') : '') }}" style="width:100%; padding:10px; border:1px solid var(--border); border-radius:8px;">
                     @error('tanggal_baptis')<div style="color:var(--danger); font-size:12px; margin-top:5px;">{{ $message }}</div>@enderror
                 </div>
-                
+
                 <!-- Status Aktif -->
                 <div style="margin-bottom: 15px;">
                     <label style="display:block; margin-bottom:5px; font-weight:600; font-size:14px;">Status Aktif</label>

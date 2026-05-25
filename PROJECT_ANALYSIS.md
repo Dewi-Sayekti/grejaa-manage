@@ -208,7 +208,7 @@ eource Keuangan` | CRUD transaksi |
 
 ### `jemaats` (soft delete)
 - user_id (FK), nama_lengkap, jenis_kelamin, tempat_lahir, tanggal_lahir
-- alamat, nomor_hp, status_pernikahan, tanggal_baptis, no_identitas, foto, status_aktif
+- alamat, nomor_hp, status_pernikahan, tanggal_baptis, golongan_darah, foto, status_aktif
 
 ### `keuangan`
 - jemaat_id (FK), tipe (pemasukan/pengeluaran), kategori, jumlah

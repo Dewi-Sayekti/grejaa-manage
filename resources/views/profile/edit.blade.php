@@ -182,8 +182,8 @@
                         <div class="pf-data-value">{{ $jemaat->status_pernikahan ?? '-' }}</div>
                     </div>
                     <div class="pf-data-row">
-                        <div class="pf-data-label">No. Identitas (KTP)</div>
-                        <div class="pf-data-value pf-mono">{{ $jemaat->no_identitas ?? '-' }}</div>
+                        <div class="pf-data-label">Golongan Darah</div>
+                        <div class="pf-data-value">{{ $jemaat->golongan_darah ?? '-' }}</div>
                     </div>
                 </div>
             </div>
@@ -296,10 +296,10 @@
                 </div>
 
                 <div class="pf-form-group">
-                    <label class="pf-label">No. Identitas (KTP)</label>
+                    <label class="pf-label">Golongan Darah</label>
                     <div class="pf-input-wrap">
-                        <i class="fas fa-id-card pf-input-icon"></i>
-                        <input type="text" name="no_identitas" class="pf-input pf-input--icon pf-mono" value="{{ old('no_identitas', $jemaat->no_identitas) }}" placeholder="16 digit NIK" maxlength="16">
+                        <i class="fas fa-tint pf-input-icon"></i>
+                        <input type="text" name="golongan_darah" class="pf-input pf-input--icon" value="{{ old('golongan_darah', $jemaat->golongan_darah) }}" placeholder="A, B, AB, O" maxlength="5">
                     </div>
                 </div>
 

@@ -29,7 +29,6 @@ class User extends Authenticatable
         'nomor_hp',
         'status_pernikahan',
         'tanggal_baptis',
-        'no_identitas',
     ];
 
     protected $casts = [

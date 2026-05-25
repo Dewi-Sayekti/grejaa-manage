@@ -73,6 +73,13 @@
             <x-input-error :messages="$errors->get('nomor_hp')" class="mt-2" />
         </div>
 
+        <!-- Golongan Darah -->
+        <div class="mt-4">
+            <x-input-label for="golongan_darah" :value="__('Golongan Darah (Opsional)')" />
+            <x-text-input id="golongan_darah" class="block mt-1 w-full" type="text" name="golongan_darah" :value="old('golongan_darah')" placeholder="A, B, AB, O" />
+            <x-input-error :messages="$errors->get('golongan_darah')" class="mt-2" />
+        </div>
+
         <!-- Status Pernikahan -->
         <div class="mt-4">
             <x-input-label for="status_pernikahan" :value="__('Status Pernikahan')" />

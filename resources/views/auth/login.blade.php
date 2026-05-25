@@ -9,7 +9,7 @@
 
         <div class="mb-6">
             <a href="/">
-                <img src="{{ asset('images/Logo.png') }}" alt="Logo YHS" class="h-24 w-auto drop-shadow-lg">
+                <img src="{{ asset('images/Logobaru.png') }}" alt="Logo YHS" class="h-20 w-auto drop-shadow-lg">
             </a>
         </div>
 

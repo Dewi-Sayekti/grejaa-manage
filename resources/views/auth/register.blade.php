@@ -1,6 +1,9 @@
 @extends('layouts.guest')
 
 @section('content')
+    <div class="flex justify-center mb-4">
+        <img src="{{ asset('images/Logobaru.png') }}" alt="Logo" class="h-20 w-auto">
+    </div>
     <!-- Info Alert -->
     <div class="mb-4 px-4 py-3 bg-blue-100 border border-blue-400 text-blue-700 text-sm rounded">
         <strong>Perhatian:</strong> Registrasi baru memerlukan persetujuan dari admin sebelum akun dapat digunakan sepenuhnya.

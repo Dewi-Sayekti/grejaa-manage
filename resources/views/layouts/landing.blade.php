@@ -6,6 +6,11 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>@yield('title', 'Gereja Management System')</title>
 
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('images/Logobaru.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('images/Logobaru.png') }}">
+    <link rel="apple-touch-icon" href="{{ asset('images/Logobaru.png') }}">
+    <meta property="og:image" content="{{ asset('images/Logobaru.png') }}" />
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
